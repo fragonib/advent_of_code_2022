@@ -1,9 +1,9 @@
-defmodule Day11Test do
+defmodule AoC.Day11Test do
   use ExUnit.Case
-  doctest Day11
+  doctest AoC.Day11
 
   test "read" do
-    assert Day11.readProblem() == [
+    assert AoC.Day11.readProblem() == [
       [1000, 2000, 3000],
       [4000],
       [5000, 6000],
@@ -12,8 +12,9 @@ defmodule Day11Test do
     ]
   end
 
+
   test "resolve" do
-    assert Day11.resolve([
+    assert AoC.Day11.resolve([
       [1000, 2000, 3000],
       [4000],
       [5000, 6000],

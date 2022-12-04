@@ -1,15 +1,18 @@
-defmodule Day12 do
+defmodule AoC.Day12 do
+
+  alias AoC.Day11
 
   def resolve(problem) do
     problem
     |> Stream.map(&Enum.sum/1)
-    |> Enum.sort()
+    |> Enum.sort(:desc)
     |> Enum.take(3)
+    |> Enum.sum()
   end
 
   def printResults() do
     Day11.readProblem()
-    |> Day12.resolve()
+    |> resolve()
     |> Integer.to_string()
     |> IO.puts()
   end

@@ -1,4 +1,4 @@
-defmodule Day11 do
+defmodule AoC.Day11 do
 
   def parseCalory("") do :next end
   def parseCalory(n) do String.to_integer(n) end
