@@ -16,6 +16,7 @@ defmodule AoC.Day21 do
   def parsePlay(n) do
     String.split(n)
     |> Enum.map(&mano/1)
+    |> List.to_tuple()
   end
 
   def readProblem do
@@ -25,8 +26,7 @@ defmodule AoC.Day21 do
     |> Enum.to_list()
   end
 
-  @spec winner(nonempty_maybe_improper_list) :: boolean
-  def winner([player1 | [player2]]) do
+  def winner({player1, player2}) do
     case player1 do
        :rock -> player2 == :paper
        :paper -> player2 == :scissors
@@ -34,7 +34,7 @@ defmodule AoC.Day21 do
     end
   end
 
-  def outcome([player1 | [player2]]) when player1 == player2, do: 3
+  def outcome({player1, player2}) when player1 == player2, do: 3
   def outcome(play) do
     case winner(play) do
       false -> 0
@@ -42,7 +42,7 @@ defmodule AoC.Day21 do
     end
   end
 
-  def shape([_ | [player2]]) do
+  def shape({_, player2}) do
     case player2 do
        :rock -> 1
        :paper -> 2
