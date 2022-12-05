@@ -26,7 +26,7 @@ defmodule AoC.Day21 do
   end
 
   @spec winner(nonempty_maybe_improper_list) :: boolean
-  def winner([player1 | player2]) do
+  def winner([player1 | [player2]]) do
     case player1 do
        :rock -> player2 == :paper
        :paper -> player2 == :scissors
@@ -34,10 +34,10 @@ defmodule AoC.Day21 do
     end
   end
 
-  def outcome([player1 | player2]) when player1 == player2, do: 3
+  def outcome([player1 | [player2]]) when player1 == player2, do: 3
   def outcome(play) do
     case winner(play) do
-      false -> 3
+      false -> 0
       true -> 6
     end
   end
