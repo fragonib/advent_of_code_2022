@@ -20,12 +20,20 @@ defmodule AoC.Day31 do
     |> IO.puts()
   end
 
-  def priority(char)  do
-    <<v::utf8>> = char
-    v - 96
+  # upcase? = fn x -> x == String.upcase(x)
+  def upcase?(x) do
+    x == String.upcase(x)
   end
 
-  @spec split_rucksack(binary) :: {binary, binary}
+  def priority(char) do
+    <<v::utf8>> = char
+    if upcase?(char) do
+      v - 38
+    else
+      v - 96
+    end
+  end
+
   def split_rucksack(rucksacks) do
     len = String.length(rucksacks)
     {
@@ -36,7 +44,7 @@ defmodule AoC.Day31 do
 
   def annotate(rucksuck) do
     String.graphemes(rucksuck)
-      |> List.foldl(0, fn (x, acc) -> 1 <<< index(x) - 1 ||| acc end)
+      |> List.foldl(0, fn (x, acc) -> 1 <<< index(x) ||| acc end)
   end
 
   def index(char)  do
