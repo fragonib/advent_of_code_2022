@@ -9,8 +9,25 @@ defmodule AoC.Day31 do
 
   def resolve(problem) do
     problem
+    |> Stream.map(&split_rucksack/1)
+    |> Stream.map(&violator/1)
     |> Stream.map(&priority/1)
     |> Enum.sum()
+  end
+
+  def violator({compart1, compart2}) do
+    type_set(compart1) &&& type_set(compart2)
+  end
+
+  def log2(x) do
+    case x do
+       1 -> 0
+       _ -> 1 + log2(x >>> 1)
+    end
+  end
+
+  def priority(type) do
+    type_to_integer(type)
   end
 
   def printResults() do
@@ -20,18 +37,21 @@ defmodule AoC.Day31 do
     |> IO.puts()
   end
 
-  # upcase? = fn x -> x == String.upcase(x)
-  def upcase?(x) do
-    x == String.upcase(x)
+  def type_to_integer(char) do
+    <<code::utf8>> = char
+    case code do
+      x when x in 97..122 -> x - 96
+      x -> x - 38
+    end
   end
 
-  def priority(char) do
-    <<v::utf8>> = char
-    if upcase?(char) do
-      v - 38
-    else
-      v - 96
+  @spec integer_to_type(integer) :: binary
+  def integer_to_type(type_int) do
+    code = case type_int do
+      x when x in 1..26 -> x + 96
+      x -> x + 38
     end
+    <<code::utf8>>
   end
 
   def split_rucksack(rucksacks) do
@@ -42,13 +62,9 @@ defmodule AoC.Day31 do
     }
   end
 
-  def annotate(rucksuck) do
+  def type_set(rucksuck) do
     String.graphemes(rucksuck)
-      |> List.foldl(0, fn (x, acc) -> 1 <<< index(x) ||| acc end)
-  end
-
-  def index(char)  do
-    priority(char) - 1
+      |> List.foldl(0, fn (x, acc) -> 1 <<< type_to_integer(x) - 1 ||| acc end)
   end
 
 end

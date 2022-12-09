@@ -3,7 +3,7 @@ defmodule AoC.Day21Test do
   doctest AoC.Day31
   alias AoC.Day31
 
-  test "read" do
+  test "read problem" do
     rucksacks = [
       "vJrwpWtwJgWrhcsFMMfFFhFp",
       "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
@@ -23,18 +23,31 @@ defmodule AoC.Day21Test do
     }
   end
 
-  test "priority" do
-    assert Day31.priority("a") == 1
-    assert Day31.priority("b") == 2
-    assert Day31.priority("c") == 3
-    assert Day31.priority("d") == 4
-    assert Day31.priority("z") == 26
-    assert Day31.priority("A") == 27
-    assert Day31.priority("Z") == 52
+  test "type conversion" do
+    assert Day31.type_to_integer("a") == 1
+    assert Day31.type_to_integer("z") == 26
+    assert Day31.type_to_integer("A") == 27
+    assert Day31.type_to_integer("Z") == 52
+    assert Day31.integer_to_type(1) == "a"
+    assert Day31.integer_to_type(26) == "z"
+    assert Day31.integer_to_type(27) == "A"
+    assert Day31.integer_to_type(52) == "Z"
+  end
+
+  test "log2" do
+    assert Day31.log2(1) == 0
+    assert Day31.log2(8) == 3
+    assert Day31.log2(64) == 6
   end
 
   test "annotate" do
-    assert Day31.annotate("abcd") == 15
+    assert Day31.type_set("abcd") == 15
+    assert Day31.type_set("effff") == 48
+    assert Day31.type_set("dddd") == 8
+  end
+
+  test "violator" do
+    assert Day31.violator({"abcd", "defgd"}) == 8
   end
 
 end
