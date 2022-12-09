@@ -26,8 +26,9 @@ defmodule AoC.Day32 do
 
   def violator(group_rucksacks) do
     marker_to_integer = fn marker -> Day31.log2(marker) + 1 end
-    [a | [ b | [c]] ] = group_rucksacks
-    (Day31.type_set(a) &&& Day31.type_set(b) &&& Day31.type_set(c))
+    group_rucksacks
+      |> Enum.map(&Day31.type_set/1)
+      |> List.foldr(-1, fn (x, acc) -> x &&& acc end)
       |> marker_to_integer.()
       |> Day31.integer_to_type()
   end
