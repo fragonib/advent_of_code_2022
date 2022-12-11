@@ -4,7 +4,7 @@ defmodule AoC.Day41Test do
   alias AoC.Day41
 
   test "read problem" do
-    ranges = [
+    assert Day41.readProblem() == [
       { 2, 4 },
       { 6, 8 },
       { 2, 3 },
@@ -18,11 +18,18 @@ defmodule AoC.Day41Test do
       { 2, 6 },
       { 4, 8 },
     ]
-    assert Day41.readProblem() == ranges
+  end
+
+  test "range overlap" do
+    assert Day41.ranges_overlap?({2,8}, {3,7}) == true
+    assert Day41.ranges_overlap?({2,8}, {3,9}) == false
+    assert Day41.ranges_overlap?({3,7}, {2,8}) == true
+    assert Day41.ranges_overlap?({6,6}, {4,6}) == true
+    assert Day41.ranges_overlap?({6,6}, {4,5}) == false
   end
 
   test "resolve" do
-    ranges = [
+    assert Day41.resolve([
       { 2, 4 },
       { 6, 8 },
       { 2, 3 },
@@ -35,8 +42,7 @@ defmodule AoC.Day41Test do
       { 4, 6 },
       { 2, 6 },
       { 4, 8 },
-    ]
-    assert Day41.resolve(ranges) == 2
+    ]) == 2
   end
 
 end
