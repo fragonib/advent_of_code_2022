@@ -45,9 +45,21 @@ defmodule AoC.Day51 do
     |> Enum.map(&Tuple.to_list/1)
   end
 
+  @spec resolve(%{:movements => any, :stacks => any, optional(any) => any}) :: any
   def resolve(problem) do
-    problem
-    |> Enum.sum()
+    %{movements: movements, stacks: stacks} = problem
+    Enum.reduce(movements, stacks, &movement/2)
+    |> Enum.map(&List.first/1)
+    |> Enum.join("")
+  end
+
+  def movement(movement, stacks) do
+    %{"quantity" => q, "from" => f, "to" => t} = movement
+    source = Enum.at(stacks, f - 1) |> Enum.drop(q)
+    crapes = Enum.at(stacks, f - 1) |> Enum.take(q) |> Enum.reverse()
+    target = crapes ++ Enum.at(stacks, t - 1)
+    List.replace_at(stacks, f - 1, source)
+    |> List.replace_at(t - 1, target)
   end
 
   @spec printResults :: :ok
