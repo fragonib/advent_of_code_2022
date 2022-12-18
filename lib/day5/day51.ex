@@ -21,10 +21,15 @@ defmodule AoC.Day51 do
   def parseMovement(line) do
     regex = ~r/move (?<quantity>\d+) from (?<from>\d+) to (?<to>\d+)/
     Regex.named_captures(regex, line)
+    |> Map.new(fn {k, v} -> { k, String.to_integer(v) } end)
   end
 
   def parseStacks(lines) do
-    lines |> Enum.map(&parseStack/1)
+    lines
+    |> Enum.drop(-2)
+    |> Enum.map(&parseStack/1)
+    |> transpose()
+    |> Enum.map(&(Enum.filter(&1, fn x -> String.length(x) > 0 end)))
   end
 
   def parseStack(line) do
@@ -32,9 +37,6 @@ defmodule AoC.Day51 do
     Regex.scan(regex, line, capture: :all_but_first)
     |> Enum.map(&List.last/1)
     |> Enum.map(&String.trim/1)
-    |> transpose()
-
-    # String.graphemes(line) |> Enum.chunk_every(3, 4, [])
   end
 
   def transpose(rows) do
@@ -48,6 +50,7 @@ defmodule AoC.Day51 do
     |> Enum.sum()
   end
 
+  @spec printResults :: :ok
   def printResults() do
     readProblem()
     |> IO.puts()
