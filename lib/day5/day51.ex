@@ -45,10 +45,9 @@ defmodule AoC.Day51 do
     |> Enum.map(&Tuple.to_list/1)
   end
 
-  @spec resolve(%{:movements => any, :stacks => any, optional(any) => any}) :: any
-  def resolve(problem) do
+  def resolve(problem, mover) do
     %{movements: movements, stacks: stacks} = problem
-    Enum.reduce(movements, stacks, &movement/2)
+    Enum.reduce(movements, stacks, mover)
     |> Enum.map(&List.first/1)
     |> Enum.join("")
   end
@@ -65,7 +64,7 @@ defmodule AoC.Day51 do
   @spec printResults :: :ok
   def printResults() do
     readProblem()
-    |> resolve()
+    |> resolve(&movement/2)
     |> IO.puts()
   end
 
