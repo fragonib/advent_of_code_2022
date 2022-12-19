@@ -4,7 +4,7 @@ defmodule AoC.Day61Test do
   alias AoC.Day61
 
   test "read" do
-    assert Day61.readProblem() |> Enum.take_while() == "asdfghjkl"
+    assert Day61.readProblem() |> Enum.to_list() == ["a","s","d","f","g","h","j","k","l"]
   end
 
   test "resolve" do
