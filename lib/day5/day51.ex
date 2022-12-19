@@ -33,7 +33,7 @@ defmodule AoC.Day51 do
   end
 
   def parseStack(line) do
-    regex = ~r/(\s(\d)\s|\s\s\s|\[(\w)\])/
+    regex = ~r/\s?(\s(\d)\s|\s\s\s|\[(\w)\])/
     Regex.scan(regex, line, capture: :all_but_first)
     |> Enum.map(&List.last/1)
     |> Enum.map(&String.trim/1)
@@ -65,6 +65,7 @@ defmodule AoC.Day51 do
   @spec printResults :: :ok
   def printResults() do
     readProblem()
+    |> resolve()
     |> IO.puts()
   end
 
