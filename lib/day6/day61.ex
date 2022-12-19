@@ -5,29 +5,34 @@ defmodule AoC.Day61 do
     |> Stream.flat_map(&String.graphemes/1)
   end
 
-  @spec resolve(any) :: number
-  def resolve(letterStream) do
-    [ {_, index} | _] = letterStream
-    |> Stream.chunk_every(4, 1)
+  def resolve(letterStream, distinctCharCount) do
+    {_, index} = letterStream
+    |> Stream.chunk_every(distinctCharCount, 1)
     |> Stream.with_index(0)
     |> Stream.drop_while(&areRepetitions?/1)
     |> Stream.take(1)
     |> Enum.to_list()
-    index + 4
+    |> Kernel.hd()
+    index + distinctCharCount
   end
 
-  @spec areRepetitions?({nonempty_maybe_improper_list, any}) :: boolean
-  def areRepetitions?({chars, _}) do
-    [a, b, c, d | _] = chars
-    a == b || a == c || a == d ||
-    b == c || b == d ||
-    c == d
+  def areRepetitions?({chars, index}) do
+    [ _ | rest ] = chars
+    case rest do
+      [] -> false
+      _ -> isHeadRepeated(chars) || areRepetitions?({rest, index})
+    end
+  end
+
+  def isHeadRepeated(chars) do
+    [ elem | rest ] = chars
+    Enum.reduce(rest, false, fn (x, acc) -> acc || (elem == x) end)
   end
 
   @spec printResults :: :ok
   def printResults() do
     readProblem()
-    |> resolve()
+    |> resolve(4)
     |> IO.puts()
   end
 
